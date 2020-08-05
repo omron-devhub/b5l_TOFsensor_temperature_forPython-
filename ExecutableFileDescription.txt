@@ -1,0 +1,14 @@
+Following menu is displayed after execute application.
+		
+      Enter send command No. and press enter key.:
+      80:Start measurement
+      81:Stop measurement
+      MT:Start measure temperature
+      XX:Exit		
+
+Input number of the menu and push enter key, the application will run as follows.
+
+      80[Enter]	"Start measurement command" is executed and then the application get closed automatically.
+      81[Enter]	"Stop measurement command" is executed is stopped and then the application get closed automatically.
+      MT[Enter]	Process of getting temperature is started.
+      XX[Enter]	Application get closed.

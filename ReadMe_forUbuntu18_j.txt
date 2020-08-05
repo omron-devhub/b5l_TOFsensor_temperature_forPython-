@@ -1,0 +1,83 @@
+﻿------------------------------------------------
+ TOF-Sensor 温度取得サンプルコード （Python版）
+------------------------------------------------
+
+（1）内容
+  このコードは、B5LのPythonによる温度取得サンプルコードを提供します。
+
+　温度取得コマンド(LED温度取得コマンド、チップ温度取得コマンド)は、
+　測距中のみ実行できるコマンドであり、測距を開始せずに実行すると、F7：デバイスエラー(異常発熱)となり、
+　測距を開始することができなくなります。
+　(復旧する為には、電源を再投入するか、ソフトウェアリセットコマンドによりB5Lを再起動する必要があります)
+
+  本サンプルでは、測距中に温度取得を行う為の実装例を示しており、処理の流れの概要は以下の通りです。
+  処理の詳細については、ソースコード及びコード中のコメントをご参照ください。
+　
+　　(a)測距開始コマンドを実行します。
+　　(b)イメージャ温度取得コマンド、LED温度取得コマンドを交互に実行します。
+　　(c)イメージャ温度が停止基準温度(イメージャ)を超えた場合、または、LED温度が停止基準温度(LED)を超えた場合、
+　　　 測距停止コマンドを実行し、B5Lを冷却します。
+　　(d)一定の待ち時間後、測距開始コマンドを実行し、イメージャ温度取得コマンド、LED温度取得コマンドを実行します。
+　　　 イメージャ温度が開始基準温度(イメージャ)未満の場合、かつ、LED温度が開始基準温度(LED)未満の場合、(b)に戻ります。
+　　　 それ以外の場合は、測距停止コマンドを実行し、(d)の処理を繰り返します。
+
+　　　 ※停止基準温度(イメージャ)、停止基準温度(LED)、開始基準温度(イメージャ)、開始基準温度(LED)、待ち時間は、
+　　　 　サンプルコード内で設定される任意の値です。
+
+（2）ファイルの説明
+  TOFSensorSampleGetTemperature /フォルダーには、次のファイルが存在します。
+
+    TOFSensorSampleGetTemperature.py    サンプルコードメイン
+    tof_serial.py                       シリアルポートの送信/受信クラス
+    connect_usb0.sh                     /dev/ttyUSB0と接続するためのshellスクリプト(Ubuntu18専用)
+
+（3）サンプルコードの動作環境
+  	サンプルコードは、Windows10およびUbuntu18下のPython2.7で動作するように
+	コーディングされています。またこのサンプルコードを実行するためには
+	モジュール pyserial が必要です。
+
+（4）実行前の準備
+	[/dev/ttyUSB0の設定]
+	
+	shellにて以下のように入力してください
+	
+	sudo modprobe usbserial vendor=0x0590 product=0x00ca[Enter]
+	sudo chmod o+wr /dev/ttyUSB0[Enter]
+
+	または以下のファイルに実行権限を与えて実行してください
+	
+	connect_usb0.sh
+	
+	[停止基準温度・開始基準温度の設定]
+	TOFSensorSampleGetTemperature.py の37行目あたり
+	
+	停止基準温度（イメージャ）  STOP_MEASUREMENT_TEMP_IMAGER_C  = 55.0
+	開始基準温度（イメージャ）  START_MEASUREMENT_TEMP_IMAGER_C = 53.0
+	停止基準温度（LED）         STOP_MEASUREMENT_TEMP_LED_C     = 50.0
+	開始基準温度（LED)          START_MEASUREMENT_TEMP_LED_C    = 48.0
+
+	の値を希望の値に変更してください。単位は℃です。
+	
+	[インターバルタイムの設定]
+	TOFの温度を下げるため、測距停止を実行後の待ち時間を設定してください
+	TOFSensorSampleGetTemperature.py の42行目あたりの以下の行のINTERVEL_TIME_Sの
+	値を変更してください。単位は秒です。
+	
+	INTERVEL_TIME_S = 10                     # Intervel time from stop measurement in s
+	
+（5）サンプルコードの実行
+	コマンドプロンプトやpower shellにて実行するソースのフォルダにcdで移動
+
+	python TOFSensorSampleGetTemperature.py[Enter]
+
+	で実行します。
+
+
+【使用上の注意】
+* 本サンプルコードおよびドキュメントの著作権はオムロンに帰属します。
+* 本サンプルコードは動作を保証するものではありません。
+* 本サンプルコードは、Apache License 2.0にて提供しています。
+
+----
+オムロン株式会社
+Copyright 2020 OMRON Corporation、All Rights Reserved.

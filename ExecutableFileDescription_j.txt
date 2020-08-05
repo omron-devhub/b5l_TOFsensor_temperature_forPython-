@@ -1,0 +1,16 @@
+■アプリケーションを起動すると以下のメニューが表示されます
+		
+      Enter send command No. and press enter key.:
+      80:Start measurement
+      81:Stop measurement
+      MT:Start measure temperature
+      XX:Exit		
+
+■メニュー上の実行したい番号を入力してEnterキーを押下すると以下のように動作します。
+
+      80[Enter]	測距開始実施後自動的にアプリケーションが終了します。
+      81[Enter]	測距停止実施後自動的にアプリケーションが終了します。
+      MT[Enter]	サンプルコードのシナリオを開始します。
+      XX[Enter]	終了します
+	
+以上

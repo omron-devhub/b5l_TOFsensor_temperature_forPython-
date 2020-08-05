@@ -1,0 +1,7 @@
+﻿#-----------------------------------------------------
+# Revision history (B5L_TOFSensorSampleGetTemperarure_for-Python)
+#-----------------------------------------------------
+
+ver 1.0 (2020/04/24)
+    - First release
+
